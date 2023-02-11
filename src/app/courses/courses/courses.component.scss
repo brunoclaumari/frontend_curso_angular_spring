@@ -1,0 +1,27 @@
+.tabela {
+  //padding: 10px;
+  //background-color: greenyellow;
+  border-width: 2px;
+  border-color: black;
+}
+
+table {
+  //margin: auto;
+  background-color: aliceblue;
+
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px;
+}
+
+.letraBranca {
+  color: whitesmoke;
+}
+
+.loadingSpinner {
+  padding: 25px;
+  background: rgba($color: #bbebea6c, $alpha: 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
