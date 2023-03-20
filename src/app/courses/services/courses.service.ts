@@ -1,7 +1,7 @@
 import { Course } from './../model/course';
 import { Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http'
-import { delay, first, tap } from 'rxjs';
+import { delay, first, take, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -27,11 +27,24 @@ export class CoursesService {
     );
   }
 
-  save(retornoForm: Course){
+  loadById(_id:number){
+    return this.httpClient.get<Course>((`${this.BASE_API}/${_id}`)).pipe(take(1));
+  }
+
+  save(retornoForm: Partial<Course>){
     return this.httpClient.post<Course>(this.BASE_API, retornoForm)
     .pipe(
       first()
     );
     //console.log(retornoForm);
+  }
+
+  update(retornoForm: Partial<Course>, _id:number){
+
+    return this.httpClient.put<Course>(`${this.BASE_API}/${_id}`, retornoForm)
+    .pipe(
+      first()
+    );
+
   }
 }

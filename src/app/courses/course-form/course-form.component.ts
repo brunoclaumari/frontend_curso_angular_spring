@@ -1,7 +1,7 @@
 import { catchError, of } from 'rxjs';
 import { Course } from './../model/course';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { CoursesService } from './../services/courses.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -14,26 +14,56 @@ import { Location } from '@angular/common';
 })
 export class CourseFormComponent implements OnInit {
 
-  form: FormGroup;
+  //form: UntypedFormGroup;
+  form = this.formBuilder.group({
+    name: [''],
+    category: ['']
+  });
+
+  _id = 0;
+
+  //const curso = new Course();
+
+
   selected: String
 
-  constructor(private formBuilder:FormBuilder,
+  constructor(private formBuilder:NonNullableFormBuilder,
     private coursesService:CoursesService,
     private snackBar: MatSnackBar,
     private router:Router,
     private activeRoute:ActivatedRoute,
     private location:Location
     ) {
-    this.form = this.formBuilder.group({
+    /* this.form = this.formBuilder.group({
       name: [null],
       category: [null]
-    });
+    }); */
     this.selected = 'option1';
-
   }
 
   ngOnInit(): void {
+    this.activeRoute.params.subscribe(
+      (params: any)=>{
+        this._id = params['_id'];
+        console.log(this._id);
+        const curso$ = this.coursesService.loadById(this._id);
+        curso$.subscribe(curso =>{
+          this.updateForm(curso);
+          console.log(curso);
+        });
+/*         this.form.value.name = params['name'];
+        this.form.value.category = params['category'];
+        console.log(params['name'])
+        console.log(params['category']) */
+      }
+    );
+  }
 
+  updateForm(curso:Course){
+    this.form.patchValue({
+      name: curso.name,
+      category: curso.category
+    });
   }
 
   onSubmit(){
@@ -49,7 +79,7 @@ export class CourseFormComponent implements OnInit {
     this.router.navigate([''], {relativeTo:this.activeRoute});//{relativeTo:this.activeRoute}
   }
 
-  onSuccess(result:Course){
+  onSuccess(result:Partial<Course>){
     //msgSuccess = 'Curso salvo com sucesso';
     this.openSnackBar(`Curso "${result.name}" salvo com sucesso `,'');
   }

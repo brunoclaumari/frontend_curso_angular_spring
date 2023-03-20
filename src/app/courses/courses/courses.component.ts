@@ -49,4 +49,8 @@ export class CoursesComponent implements OnInit {
     this.router.navigate(['new'], {relativeTo:this.activeRoute})
   }
 
+  onUpdate(_id:number, curso:Partial<Course>){
+    this.router.navigate(['update',_id], {queryParams: {name: curso.name, category: curso.category}, relativeTo:this.activeRoute})
+  }
+
 }
