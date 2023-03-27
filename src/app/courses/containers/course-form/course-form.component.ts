@@ -1,8 +1,8 @@
 import { catchError, of } from 'rxjs';
-import { Course } from './../model/course';
+import { Course } from '../../model/course';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
-import { CoursesService } from './../services/courses.service';
+import { CoursesService } from '../../services/courses.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -44,17 +44,16 @@ export class CourseFormComponent implements OnInit {
   ngOnInit(): void {
     this.activeRoute.params.subscribe(
       (params: any)=>{
-        this._id = params['_id'];
-        console.log(this._id);
-        const curso$ = this.coursesService.loadById(this._id);
-        curso$.subscribe(curso =>{
-          this.updateForm(curso);
-          console.log(curso);
-        });
-/*         this.form.value.name = params['name'];
-        this.form.value.category = params['category'];
-        console.log(params['name'])
-        console.log(params['category']) */
+        if(Number.parseInt(params['_id']) > 0){
+          console.log(`id: ${params['_id']}`);
+          this._id = params['_id'];
+          console.log(this._id);
+          const curso$ = this.coursesService.loadById(this._id);
+          curso$.subscribe(curso =>{
+            this.updateForm(curso);
+            console.log(curso);
+          });
+        }
       }
     );
   }

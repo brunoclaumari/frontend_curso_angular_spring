@@ -1,21 +1,21 @@
-.tabela {
-  //padding: 10px;
-  //background-color: greenyellow;
-  border-width: 2px;
-  border-color: black;
-}
 
-table {
+.mat-table {
   //margin: auto;
   background-color: aliceblue;
 
-  -webkit-border-radius: 25px;
+/*   -webkit-border-radius: 25px;
   -moz-border-radius: 25px;
-  border-radius: 25px;
+  border-radius: 25px; */
+  overflow: auto;
+  max-height: 600px;
 }
 
-.letraBranca {
-  color: whitesmoke;
+.actionColumn{
+  flex: 0 0 120px;
+}
+
+.actionColumnHeader{
+  flex: 0 0 90px;
 }
 
 .loadingSpinner {

@@ -1,5 +1,5 @@
-import { CoursesService } from './../services/courses.service';
-import { Course } from './../model/course';
+import { CoursesService } from '../../services/courses.service';
+import { Course } from '../../model/course';
 import { Component, OnInit } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,7 +14,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class CoursesComponent implements OnInit {
 
   courses$: Observable<Course[]>;
-  displayedColumns = ['name', 'category', 'actions'];
+  _id: Number = 0;
+
 
   constructor(
     private coursesService:CoursesService,
@@ -45,12 +46,18 @@ export class CoursesComponent implements OnInit {
   }
 
   onAdd(){
-    console.log('onAdd');
-    this.router.navigate(['new'], {relativeTo:this.activeRoute})
+    this.router.navigate(['new'], {relativeTo: this.activeRoute})
   }
 
-  onUpdate(_id:number, curso:Partial<Course>){
+  onUpdate(_id:number){
+    this._id = _id;
+    this.router.navigate(['update',this._id], { relativeTo:this.activeRoute})
+  }
+
+  /*
+    onUpdate(_id:number, curso:Partial<Course>){
     this.router.navigate(['update',_id], {queryParams: {name: curso.name, category: curso.category}, relativeTo:this.activeRoute})
   }
+  */
 
 }
