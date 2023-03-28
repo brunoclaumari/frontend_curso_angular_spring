@@ -6,6 +6,7 @@ import { CoursesService } from '../../services/courses.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { style } from '@angular/animations';
 
 @Component({
   selector: 'app-course-form',
@@ -16,14 +17,10 @@ export class CourseFormComponent implements OnInit {
 
   //form: UntypedFormGroup;
   form = this.formBuilder.group({
+    _id:[''],
     name: [''],
     category: ['']
   });
-
-  _id = 0;
-
-  //const curso = new Course();
-
 
   selected: String
 
@@ -34,15 +31,15 @@ export class CourseFormComponent implements OnInit {
     private activeRoute:ActivatedRoute,
     private location:Location
     ) {
-    /* this.form = this.formBuilder.group({
-      name: [null],
-      category: [null]
-    }); */
+
     this.selected = 'option1';
   }
 
   ngOnInit(): void {
-    this.activeRoute.params.subscribe(
+    const course:Course = this.activeRoute.snapshot.data['course'];
+    console.log(course);
+    this.updateForm(course);
+/*     this.activeRoute.params.subscribe(
       (params: any)=>{
         if(Number.parseInt(params['_id']) > 0){
           console.log(`id: ${params['_id']}`);
@@ -55,11 +52,12 @@ export class CourseFormComponent implements OnInit {
           });
         }
       }
-    );
+    ); */
   }
 
   updateForm(curso:Course){
     this.form.patchValue({
+      _id: curso._id,
       name: curso.name,
       category: curso.category
     });
@@ -80,11 +78,14 @@ export class CourseFormComponent implements OnInit {
 
   onSuccess(result:Partial<Course>){
     //msgSuccess = 'Curso salvo com sucesso';
-    this.openSnackBar(`Curso "${result.name}" salvo com sucesso `,'');
+    this.openSnackBar(`Curso "${result.name}" salvo com sucesso! `,'');
   }
 
   openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action,{duration: 5000});
+    this.snackBar.open(message, action,{
+      duration: 5000,
+      panelClass: ['green-snackbar','green'],
+    });
   }
 
   onCancel(){

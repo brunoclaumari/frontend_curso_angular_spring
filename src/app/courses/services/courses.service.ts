@@ -27,7 +27,7 @@ export class CoursesService {
     );
   }
 
-  loadById(_id:number){
+  loadById(_id:string){
     return this.httpClient.get<Course>((`${this.BASE_API}/${_id}`)).pipe(take(1));
   }
 

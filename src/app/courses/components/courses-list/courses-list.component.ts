@@ -12,7 +12,7 @@ export class CoursesListComponent implements OnInit{
   @Input() courses: Course[] = [];
   @Output() _id: Number = 0;
   @Output() add = new EventEmitter(false);
-  @Output() update = new EventEmitter(false);
+  @Output() edit = new EventEmitter(false);
 
   readonly displayedColumns = ['name', 'category', 'actions'];
 
@@ -27,15 +27,9 @@ export class CoursesListComponent implements OnInit{
     //this.router.navigate(['new'], {relativeTo:this.activeRoute})
   }
 
-  onUpdate(_id:number){
-    this.update.emit(true);
+  onEdit(course:Course){
+    this.edit.emit(course);
     //this.router.navigate(['update',_id], {queryParams: {name: curso.name, category: curso.category}, relativeTo:this.activeRoute})
   }
-
-/*   onUpdate(_id:number){
-    this.update.emit(true);
-    //this.router.navigate(['update',_id], {queryParams: {name: curso.name, category: curso.category}, relativeTo:this.activeRoute})
-  } */
-
 
 }

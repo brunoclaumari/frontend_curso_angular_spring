@@ -49,9 +49,9 @@ export class CoursesComponent implements OnInit {
     this.router.navigate(['new'], {relativeTo: this.activeRoute})
   }
 
-  onUpdate(_id:number){
-    this._id = _id;
-    this.router.navigate(['update',this._id], { relativeTo:this.activeRoute})
+  onEdit(course:Course){
+    //this._id = _id;
+    this.router.navigate(['edit',course._id], { relativeTo:this.activeRoute})
   }
 
   /*
