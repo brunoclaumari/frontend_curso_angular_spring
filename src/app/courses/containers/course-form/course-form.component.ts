@@ -1,12 +1,12 @@
-import { catchError, of } from 'rxjs';
-import { Course } from '../../model/course';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
-import { CoursesService } from '../../services/courses.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { style } from '@angular/animations';
+import { Component, OnInit } from '@angular/core';
+import { NonNullableFormBuilder } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import { catchError, of } from 'rxjs';
+
+import { CoursesService } from '../../services/courses.service';
+import { Course } from './../../model/course';
 
 @Component({
   selector: 'app-course-form',
@@ -65,6 +65,7 @@ export class CourseFormComponent implements OnInit {
 
   onSubmit(){
     //alert('aoooba')
+    console.log(`Form: ${JSON.stringify(this.form.value)}`);
     this.coursesService.save(this.form.value)
     .pipe(
       catchError(erro =>{
@@ -72,8 +73,11 @@ export class CourseFormComponent implements OnInit {
         return of([]);
       })
     )
-    .subscribe(result => this.onSuccess(this.form.value) )//console.log(result)
-    this.router.navigate([''], {relativeTo:this.activeRoute});//{relativeTo:this.activeRoute}
+    .subscribe(result => {
+      console.log(`Result: ${JSON.stringify(result)}`);
+      this.router.navigate(['']);//{relativeTo:this.activeRoute}
+      this.onSuccess(this.form.value);
+    });
   }
 
   onSuccess(result:Partial<Course>){
@@ -84,7 +88,7 @@ export class CourseFormComponent implements OnInit {
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action,{
       duration: 5000,
-      panelClass: ['green-snackbar','green'],
+      //panelClass: ['green-snackbar','green'],
     });
   }
 

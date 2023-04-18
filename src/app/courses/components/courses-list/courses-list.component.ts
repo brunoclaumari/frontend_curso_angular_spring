@@ -13,6 +13,7 @@ export class CoursesListComponent implements OnInit{
   @Output() _id: Number = 0;
   @Output() add = new EventEmitter(false);
   @Output() edit = new EventEmitter(false);
+  @Output() delete = new EventEmitter(false);
 
   readonly displayedColumns = ['name', 'category', 'actions'];
 
@@ -30,6 +31,10 @@ export class CoursesListComponent implements OnInit{
   onEdit(course:Course){
     this.edit.emit(course);
     //this.router.navigate(['update',_id], {queryParams: {name: curso.name, category: curso.category}, relativeTo:this.activeRoute})
+  }
+
+  onDelete(course:Course){
+    this.delete.emit(course);
   }
 
 }

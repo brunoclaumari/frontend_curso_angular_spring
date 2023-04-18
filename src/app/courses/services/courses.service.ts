@@ -32,19 +32,28 @@ export class CoursesService {
   }
 
   save(retornoForm: Partial<Course>){
-    return this.httpClient.post<Course>(this.BASE_API, retornoForm)
-    .pipe(
-      first()
-    );
-    //console.log(retornoForm);
+
+    if(retornoForm._id){
+      console.log('update');
+      return this.update(retornoForm);
+    }
+
+    console.log('create');
+    return this.create(retornoForm);
   }
 
-  update(retornoForm: Partial<Course>, _id:number){
+  private create(retornoForm: Partial<Course>){
+    retornoForm._id = '0';
+    return this.httpClient.post<Course>(this.BASE_API, retornoForm).pipe(first());
+  }
 
-    return this.httpClient.put<Course>(`${this.BASE_API}/${_id}`, retornoForm)
-    .pipe(
-      first()
-    );
+  private update(retornoForm: Partial<Course>){
 
+    return this.httpClient.put<Course>(`${this.BASE_API}/${retornoForm._id}`, retornoForm).pipe(first());
+  }
+
+  delete(id: string){
+
+    return this.httpClient.delete(`${this.BASE_API}/${id}`).pipe(first());
   }
 }
