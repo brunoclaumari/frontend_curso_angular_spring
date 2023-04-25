@@ -9,7 +9,9 @@
 
       <mat-form-field class="fieldStyle">
         <mat-label>Nome</mat-label>
-        <input matInput placeholder="Digite o Nome" formControlName="name" />
+        <input maxlength="100" #name matInput placeholder="Digite o Nome" formControlName="name" />
+        <mat-hint align="end">{{name.value.length}}/100</mat-hint>
+        <mat-error *ngIf="form.get('name')?.invalid">{{getErrorMessage("name")}}</mat-error>
       </mat-form-field>
 
       <mat-form-field class="fieldStyle" appearance="fill">
@@ -18,6 +20,7 @@
           <mat-option value="front-end">Front-End</mat-option>
           <mat-option value="back-end">Back-End</mat-option>
         </mat-select>
+        <mat-error *ngIf="form.get('category')?.invalid">{{getErrorMessage("category")}}</mat-error>
 <!--         <input matInput placeholder="Digite a categoria" formControlName="category"
         /> -->
       </mat-form-field>
